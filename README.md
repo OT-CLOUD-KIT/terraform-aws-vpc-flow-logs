@@ -1,2 +1,1 @@
-# terraform-aws-vpc-flow-logs
-terraform-aws-vpc-flow-logs
+Generalized flow logs for AWS Account
