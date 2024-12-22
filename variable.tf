@@ -15,11 +15,11 @@ variable "traffic_type" {
 variable "log_destination_type" {
     type = string
     validation {
-      condition = var.log_destination_type == "cloud-watch-logs" || var.log_destination_type == "s3" || var.log_destination_type == "kinesis-data-firhose"
+      condition = var.log_destination_type == "cloud-watch-logs" || var.log_destination_type == "s3" || var.log_destination_type == "kinesis-data-firehose"
       error_message = "value must be either 'cloud-watch-logs', 's3', 'kinesis-data-firehose' "
     }
 
-    default = "cloud-watch-logs"
+    default = "kinesis-data-firehose"
 }
 
 variable "file_format" {
@@ -33,11 +33,14 @@ variable "file_format" {
 
 variable "max_aggregation_interval" {
   type = number
+  default = 600
   validation {
     condition = var.max_aggregation_interval == 60 || var.max_aggregation_interval == 600
     error_message = "Value should be either 60 seconds or 600 seconds"
   }
 }
+
+## need to make default change accoring to the transit gateway id and attachment
 variable "log_format" {
   type = string
   default = "$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"
@@ -52,12 +55,8 @@ variable "resource_id" {
 }
 
 variable "deliver_cross_account_role" {
-  type = string
   default = null
-  validation {
-    condition = startswith(var.deliver_cross_account_role,"arn")
-    error_message = "Please provide a error message for the deliver cross account role"
-  }
+  
 }
 
 variable "hive_compatible_partitions" {
